@@ -1,3 +1,4 @@
+require 'active_record'
 require 'cgtrader_levels/version'
 
 module CgtraderLevels
