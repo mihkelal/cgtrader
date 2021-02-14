@@ -3,20 +3,14 @@ class CgtraderLevels::User < ActiveRecord::Base
 
   after_initialize do
     self.reputation = 0
-
-    corresponding_level = find_corresponding_level
-
-    if corresponding_level
-      self.level_id = corresponding_level.id
-      @level = corresponding_level
-    end
+    set_corresponding_level
   end
 
-  before_save :set_new_level
+  before_save :set_corresponding_level
 
   private
 
-  def set_new_level
+  def set_corresponding_level
     corresponding_level = find_corresponding_level
 
     if corresponding_level
