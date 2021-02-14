@@ -3,25 +3,23 @@ class CgtraderLevels::User < ActiveRecord::Base
 
   after_initialize do
     self.reputation = 0
-
-    matching_level = CgtraderLevels::Level.where(experience: reputation).first
-
-    if matching_level
-      self.level_id = matching_level.id
-      @level = matching_level
-    end
+    set_corresponding_level
   end
 
-  after_update :set_new_level
+  before_save :set_corresponding_level
 
   private
 
-  def set_new_level
-    matching_level = CgtraderLevels::Level.where(experience: reputation).first
+  def set_corresponding_level
+    corresponding_level = find_corresponding_level
 
-    if matching_level
-      self.level_id = matching_level.id
-      @level = matching_level
+    if corresponding_level
+      self.level_id = corresponding_level.id
+      @level = corresponding_level
     end
+  end
+
+  def find_corresponding_level
+    CgtraderLevels::Level.where(experience: ..reputation).order(experience: :desc).first
   end
 end
