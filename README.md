@@ -1,29 +1,28 @@
 # CGTrader Level System
 
-The goal of this task is to test your ability to test, refactor and implement new functionality on a given system. Note
-that this repository does not represent the actual code of CGTrader, but only acts as a testing ground.
+Keep track of user levels, manage levels themselves and bonuses that go along with reaching new levels.
 
-## Tasks
+## Prerequisites
 
-1. Make sure test suite runs through all of the tests successfully. Hint: it won't at first.
-2. Refactor implementation code and tests where you see fit. You have as much freedom here as you wish.
-3. Implement new functionality. More details below.
+Before you begin, ensure you have installed the following on your machine:
+* `ruby` version `~> 3.0`
 
-## New Functionality
+## Setup
 
-Imagine the situation where management assigns you a task. Management wants that the system would automatically reward
-users or reduce their tax rate when they level up. Users are supposed to have a combination of rewards and privileges
-based on their user level. The only privilege in this case is tax reduction. However, management is not sure if that
-will always be the case, so you, as a developer, should make changes with the idea that requirements for this may change
-and the functionality should be flexible.
+1. `gem install` - Install required gems.
+2. `irb -Ilib -rcgtrader_levels` - Launch IRB REPL with classes already loaded.
+3. For sample database for testing run the database setup located in `spec/support/init_database.rb`.
 
-## Notes & Requirements
+## Example usage
 
-* Try not to spend more than 4 hours on this task. This will constrain you not to spend too much time on trivial
-details (sometimes you have to make compromises in order to deliver fast).
-* You may refactor not only the code in the models, but in tests too. Keep in mind that test code is still code that
-needs to be maintained.
-* Use git to track your changes.
-* When finished, simply zip the project and send it via e-mail.
+```ruby
+CgtraderLevels::Level.create!(experience: 0, title: 'First level')
+CgtraderLevels::Level.create!(experience: 10, title: 'Second level')
 
-Good luck!
+CgtraderLevels::User.create!(coins: 1, tax: 20)
+CgtraderLevels::User.update!(reputation: 10) # Assigns second level and grants bonuses to user
+```
+
+## Running specs
+
+`rspec ./spec` - Run all specs in spec folder.
