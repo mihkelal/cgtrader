@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_record'
 require 'cgtrader_levels/version'
 require 'cgtrader_levels/models/level'

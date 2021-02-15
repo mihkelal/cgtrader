@@ -1,32 +1,36 @@
-class CgtraderLevels::User < ActiveRecord::Base
-  belongs_to :level
+# frozen_string_literal: true
 
-  after_initialize do
-    self.reputation ||= 0
-    set_corresponding_level
-  end
+module CgtraderLevels
+  class User < ActiveRecord::Base
+    belongs_to :level
 
-  before_save :set_corresponding_level_and_grant_level_up_bonuses
+    after_initialize do
+      self.reputation ||= 0
+      set_corresponding_level
+    end
 
-  private
+    before_save :set_corresponding_level_and_grant_level_up_bonuses
 
-  def set_corresponding_level
-    self.level ||= find_corresponding_level
-  end
+    private
 
-  def set_corresponding_level_and_grant_level_up_bonuses
-    new_corresponding_level = find_corresponding_level
-    return if new_corresponding_level == self.level
+    def set_corresponding_level
+      self.level ||= find_corresponding_level
+    end
 
-    grant_level_up_bonuses(new_corresponding_level)
-    self.level = new_corresponding_level
-  end
+    def set_corresponding_level_and_grant_level_up_bonuses
+      new_corresponding_level = find_corresponding_level
+      return if new_corresponding_level == self.level
 
-  def find_corresponding_level
-    CgtraderLevels::Level.where(experience: ..reputation).order(:experience).last
-  end
+      grant_level_up_bonuses(new_corresponding_level)
+      self.level = new_corresponding_level
+    end
 
-  def grant_level_up_bonuses(corresponding_level)
-    CgtraderLevels::Users::LevelUpRewarder.new(self, corresponding_level).execute
+    def find_corresponding_level
+      CgtraderLevels::Level.where(experience: ..reputation).order(:experience).last
+    end
+
+    def grant_level_up_bonuses(corresponding_level)
+      CgtraderLevels::Users::LevelUpRewarder.new(self, corresponding_level).execute
+    end
   end
 end

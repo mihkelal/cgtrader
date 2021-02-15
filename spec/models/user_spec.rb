@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe CgtraderLevels::User do
@@ -15,39 +17,39 @@ describe CgtraderLevels::User do
   end
 
   describe 'level up' do
-    let!(:level_1) { CgtraderLevels::Level.create!(experience: 0, title: 'First level') }
-    let!(:level_2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level') }
-    let!(:level_3) { CgtraderLevels::Level.create!(experience: 13, title: 'Third level') }
+    let!(:level1) { CgtraderLevels::Level.create!(experience: 0, title: 'First level') }
+    let!(:level2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level') }
+    let!(:level3) { CgtraderLevels::Level.create!(experience: 13, title: 'Third level') }
     let(:user) { CgtraderLevels::User.create! }
 
     it "levels up from 'First level' to 'Second level'" do
-      expect {
+      expect do
         user.update_attribute(:reputation, 10)
-      }.to change { user.reload.level }.from(level_1).to(level_2)
+      end.to change { user.reload.level }.from(level1).to(level2)
     end
 
     it "levels up from 'First level' to 'Second level'" do
-      expect {
+      expect do
         user.update_attribute(:reputation, 11)
-      }.to change { user.reload.level }.from(level_1).to(level_2)
+      end.to change { user.reload.level }.from(level1).to(level2)
     end
   end
 
   describe 'level up bonuses & privileges' do
-    let!(:level_1) { CgtraderLevels::Level.create!(experience: 0, title: 'First level') }
-    let!(:level_2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level') }
+    let!(:level1) { CgtraderLevels::Level.create!(experience: 0, title: 'First level') }
+    let!(:level2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level') }
     let(:user) { CgtraderLevels::User.create!(coins: 1) }
 
     it 'gives 7 coins to user' do
-      expect {
+      expect do
         user.update_attribute(:reputation, 10)
-      }.to change { user.reload.coins }.by(7)
+      end.to change { user.reload.coins }.by(7)
     end
 
     it 'reduces tax rate by 1' do
-      expect {
+      expect do
         user.update_attribute(:reputation, 10)
-      }.to change { user.reload.tax }.by(-1)
+      end.to change { user.reload.tax }.by(-1)
     end
   end
 end
