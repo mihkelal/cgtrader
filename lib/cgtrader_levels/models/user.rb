@@ -27,12 +27,6 @@ class CgtraderLevels::User < ActiveRecord::Base
   end
 
   def grant_level_up_bonuses(corresponding_level)
-    level_ups = level_ups_count(corresponding_level)
-    self.coins += 7 * level_ups
-    self.tax -= 1 * level_ups
-  end
-
-  def level_ups_count(corresponding_level)
-    CgtraderLevels::Level.where(experience: self.level.experience...corresponding_level.experience).count
+    CgtraderLevels::Users::LevelUpRewarder.new(self, corresponding_level).execute
   end
 end

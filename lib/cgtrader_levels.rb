@@ -1,7 +1,8 @@
 require 'active_record'
 require 'cgtrader_levels/version'
+require 'cgtrader_levels/models/level'
+require 'cgtrader_levels/models/user'
+require 'cgtrader_levels/models/users/level_up_rewarder'
 
 module CgtraderLevels
-  autoload :User, 'cgtrader_levels/models/user'
-  autoload :Level, 'cgtrader_levels/models/level'
 end
