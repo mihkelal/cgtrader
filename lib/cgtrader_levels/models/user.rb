@@ -4,12 +4,16 @@ module CgtraderLevels
   class User < ActiveRecord::Base
     belongs_to :level
 
+    validates :reputation, numericality: { greater_than_or_equal_to: 0 }
+    validates :coins, numericality: { greater_than_or_equal_to: 0 }
+    validates :tax, numericality: { greater_than_or_equal_to: 0 }
+
     after_initialize do
       self.reputation ||= 0
       set_corresponding_level
     end
 
-    before_save :set_corresponding_level_and_grant_level_up_bonuses
+    before_validation :set_corresponding_level_and_grant_level_up_bonuses
 
     private
 

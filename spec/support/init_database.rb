@@ -11,12 +11,12 @@ ActiveRecord::Base.establish_connection(
 ActiveRecord::Base.connection.create_table :users do |table|
   table.string :username
   table.integer :reputation
-  table.decimal :coins, default: 0
-  table.decimal :tax, default: 30
+  table.decimal :coins, default: 0, null: false
+  table.decimal :tax, default: 30, null: false
   table.references :level
 end
 
 ActiveRecord::Base.connection.create_table :levels do |table|
   table.string :title
-  table.integer :experience
+  table.integer :experience, null: false
 end
