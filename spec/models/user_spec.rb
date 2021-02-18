@@ -49,18 +49,18 @@ describe CgtraderLevels::User do
       let(:user) { CgtraderLevels::User.create!(coins: 1, tax: 20) }
 
       context 'with one level up' do
-        let!(:level2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level', coins_bonus: 7, tax_reduction: 1) }
+        let!(:level2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level', coins_bonus: 4, tax_reduction: 2) }
 
-        it 'gives 7 coins to user' do
+        it 'gives level-specific amount of coins to user' do
           expect do
             user.update(reputation: 10)
-          end.to change { user.reload.coins }.by(7)
+          end.to change { user.reload.coins }.by(level2.coins_bonus)
         end
 
-        it 'reduces tax rate by 1' do
+        it 'reduces tax rate by level-specific amount of reduction' do
           expect do
             user.update(reputation: 10)
-          end.to change { user.reload.tax }.by(-1)
+          end.to change { user.reload.tax }.by(-level2.tax_reduction)
         end
 
         context 'with tax rate 0' do
@@ -75,19 +75,19 @@ describe CgtraderLevels::User do
       end
 
       context 'with two level ups' do
-        let!(:level2) { CgtraderLevels::Level.create!(experience: 5, title: 'Second level', coins_bonus: 7, tax_reduction: 1) }
-        let!(:level3) { CgtraderLevels::Level.create!(experience: 10, title: 'Third level', coins_bonus: 7, tax_reduction: 1) }
+        let!(:level2) { CgtraderLevels::Level.create!(experience: 5, title: 'Second level', coins_bonus: 5, tax_reduction: 1) }
+        let!(:level3) { CgtraderLevels::Level.create!(experience: 10, title: 'Third level', coins_bonus: 8, tax_reduction: 4) }
 
-        it 'gives 14 coins to user' do
+        it 'gives level-specific amount of coins to user' do
           expect do
             user.update(reputation: 10)
-          end.to change { user.reload.coins }.by(14)
+          end.to change { user.reload.coins }.by(level2.coins_bonus + level3.coins_bonus)
         end
 
-        it 'reduces tax rate by 2' do
+        it 'reduces tax rate by level-specific amount of reduction' do
           expect do
             user.update(reputation: 10)
-          end.to change { user.reload.tax }.by(-2)
+          end.to change { user.reload.tax }.by(-(level2.tax_reduction + level3.tax_reduction))
         end
       end
     end
