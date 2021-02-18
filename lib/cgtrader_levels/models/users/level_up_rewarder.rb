@@ -11,15 +11,14 @@ module CgtraderLevels
       end
 
       def execute
-        level_ups = level_ups_count(new_level)
-        user.coins += 7 * level_ups
-        user.tax -= 1 * level_ups
+        user.coins += level_ups.sum(&:coins_bonus)
+        user.tax -= level_ups.sum(&:tax_reduction)
       end
 
       private
 
-      def level_ups_count(new_level)
-        CgtraderLevels::Level.where(experience: user.level.experience...new_level.experience).count
+      def level_ups
+        @level_ups ||= CgtraderLevels::Level.where(experience: (user.level.experience + 1)..new_level.experience)
       end
     end
   end
