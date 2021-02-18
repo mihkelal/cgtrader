@@ -49,7 +49,7 @@ describe CgtraderLevels::User do
       let(:user) { CgtraderLevels::User.create!(coins: 1, tax: 20) }
 
       context 'with one level up' do
-        let!(:level2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level') }
+        let!(:level2) { CgtraderLevels::Level.create!(experience: 10, title: 'Second level', coins_bonus: 7, tax_reduction: 1) }
 
         it 'gives 7 coins to user' do
           expect do
@@ -75,8 +75,8 @@ describe CgtraderLevels::User do
       end
 
       context 'with two level ups' do
-        let!(:level2) { CgtraderLevels::Level.create!(experience: 5, title: 'Second level') }
-        let!(:level3) { CgtraderLevels::Level.create!(experience: 10, title: 'Third level') }
+        let!(:level2) { CgtraderLevels::Level.create!(experience: 5, title: 'Second level', coins_bonus: 7, tax_reduction: 1) }
+        let!(:level3) { CgtraderLevels::Level.create!(experience: 10, title: 'Third level', coins_bonus: 7, tax_reduction: 1) }
 
         it 'gives 14 coins to user' do
           expect do
