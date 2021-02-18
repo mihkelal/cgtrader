@@ -19,4 +19,6 @@ end
 ActiveRecord::Base.connection.create_table :levels do |table|
   table.string :title
   table.integer :experience, null: false
+  table.integer :coins_bonus, default: 0, null: false
+  table.integer :tax_reduction, default: 0, null: false
 end
