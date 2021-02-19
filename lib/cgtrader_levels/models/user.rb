@@ -4,9 +4,9 @@ module CgtraderLevels
   class User < ActiveRecord::Base
     belongs_to :level
 
-    validates :reputation, numericality: { greater_than_or_equal_to: 0 }
-    validates :coins, numericality: { greater_than_or_equal_to: 0 }
-    validates :tax, numericality: { greater_than_or_equal_to: 0 }
+    validates :reputation, presence: true, numericality: { greater_than_or_equal_to: 0 }
+    validates :coins, presence: true, numericality: { greater_than_or_equal_to: 0 }
+    validates :tax, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
     after_initialize do
       self.reputation ||= 0

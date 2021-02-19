@@ -17,10 +17,11 @@ Before you begin, ensure you have installed the following on your machine:
 
 ```ruby
 CgtraderLevels::Level.create!(experience: 0, title: 'First level')
-CgtraderLevels::Level.create!(experience: 10, title: 'Second level')
+CgtraderLevels::Level.create!(experience: 10, title: 'Second level', coins_bonus: 10, tax_reduction: 1)
+CgtraderLevels::Level.create!(experience: 20, title: 'Third level', coins_bonus: 20, tax_reduction: 3)
 
 CgtraderLevels::User.create!(coins: 1, tax: 20)
-CgtraderLevels::User.update!(reputation: 10) # Assigns second level and grants bonuses to user
+CgtraderLevels::User.update!(reputation: 20) # Assigns third level and grants two levelup bonuses to user
 ```
 
 ## Running specs
